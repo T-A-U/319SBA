@@ -45,14 +45,20 @@ app.get('/',async (req,res) =>{
 })
 
 app.post('/games', async (req,res)=> {
-    const game = new GamesModel({ name: 'KingdomHearts' });
-    console.log(game.name); // '1080 Avalanche'
+    const game = new GamesModel({ name: 'Grand Theft Auto 6' });
+    console.log(game.name); // 'GTA'
     await game.save();
 })
 
-app.delete('games/:_id', async (req,res)=> {
+
+
+
+
+
+
+app.delete('games/:id', async (req,res)=> {
     //does not work yet
-    const game = await GamesModel.findByIdAndDelete(_id) 
+    const game = await GamesModel.findByIdAndDelete(id) 
 })
 
 app.listen(PORT, ()=>{
