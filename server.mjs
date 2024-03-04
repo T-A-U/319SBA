@@ -36,7 +36,7 @@ const gamesSchema = new mongoose.Schema({
   });
 const GamesModel = mongoose.model('Game', gamesSchema, "GTAgames");
 
-
+//Gets all games and returns them in a list
 app.get('/',async (req,res) =>{
     // res.send('hello, World')
     const games = await GamesModel.find({});
@@ -44,21 +44,26 @@ app.get('/',async (req,res) =>{
     res.send(games)
 })
 
+//Creates a single game in the database
 app.post('/games', async (req,res)=> {
-    const game = new GamesModel({ name: 'Grand Theft Auto 6' });
+    const game = new GamesModel({ name: 'Grand Theft Auto: London 1969' });
     console.log(game.name); // 'GTA'
     await game.save();
 })
 
+//Updates a single game name
+app.put("/:id", async (req,res)=> {
+    const game = await GamesModel.findOneAndUpdate({_id: '65e53a9d94b31326c3ca8b1d'}, {name: 'Grand Theft Auto: Vice City '}) 
+    res.send(game).status(200)
+})
 
 
 
-
-
-
-app.delete('games/:id', async (req,res)=> {
+//Deletes a single game from the list
+app.delete('/:id', async (req,res)=> {
     //does not work yet
-    const game = await GamesModel.findByIdAndDelete(id) 
+    const game = await GamesModel.deleteOne({_id: '65e539dd5674cfe1e0a789bf'}) 
+    res.send(game).status(200)
 })
 
 app.listen(PORT, ()=>{
