@@ -34,7 +34,28 @@ let PORT = 3000
 const gamesSchema = new mongoose.Schema({
     name: String  
   });
-const GamesModel = mongoose.model('Game', gamesSchema, "GTAgames");
+  const GamesModel = mongoose.model('Game', gamesSchema, "GTAgames");
+  const gamesValidator = GamesModel.validateSync()
+  GamesModel.createIndex( { name : -1 }, function(err, result) {
+    console.log(result);
+    callback(result);
+ })
+  const consolesSchema = new mongoose.Schema({
+    name: String  
+  });
+  const ConsolesModel = mongoose.model('Console', consolesSchema, "Consoles");
+  ConsolesModel.createIndex( { name : -1 }, function(err, result) {
+    console.log(result);
+    callback(result);
+ })
+  const animeSchema = new mongoose.Schema({
+    name: String  
+  });
+const AnimeModel = mongoose.model('Anime', animeSchema, "AnimeShows");
+AnimeModel.createIndex( { name : -1 }, function(err, result) {
+    console.log(result);
+    callback(result);
+ })
 
 //Gets all games and returns them in a list
 app.get('/',async (req,res) =>{
@@ -49,6 +70,23 @@ app.post('/games', async (req,res)=> {
     const game = new GamesModel({ name: 'Grand Theft Auto: London 1969' });
     console.log(game.name); // 'GTA'
     await game.save();
+    res.send(game.name)
+})
+
+//Creates a single game in the database
+app.post('/anime', async (req,res)=> {
+    const anime = new AnimeModel({ name: 'Solo Leveling' });
+    console.log(anime.name); // 'GTA'
+    await anime.save();
+    res.send(anime.name)
+})
+
+//Creates a single game in the database
+app.post('/consoles', async (req,res)=> {
+    const consoles = new ConsolesModel({ name: 'Play Station' });
+    console.log(consoles.name); // 'GTA'
+    await consoles.save();
+    res.send(consoles.name)
 })
 
 //Updates a single game name
